@@ -4,7 +4,7 @@
 
 extern LGE::Application* LGE::CreateApplication();
 
-int main(int argc, char** argv) 
+int main(int argc, char** argv)
 {
 	auto app = LGE::CreateApplication();
 	app->Run();
