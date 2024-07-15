@@ -4,7 +4,6 @@
 
 namespace LGE
 {
-
 	class LGE_API Application
 	{
 	public:
@@ -16,5 +15,4 @@ namespace LGE
 
 	// To be defined in client application
 	Application* CreateApplication();
-
 }

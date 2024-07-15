@@ -1,4 +1,8 @@
 #include "Application.h"
+
+#include <iostream>
+
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 namespace LGE 
@@ -30,6 +34,17 @@ namespace LGE
 
         /* Make the window's context current */
         glfwMakeContextCurrent(window);
+
+        // glad: load all OpenGL function pointers
+        if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+        {
+            std::cout << "ERROR: Failed to initialize GLAD" << std::endl;
+            return; // return -1;
+        }
+
+        glfwSwapInterval(1); // Enable vsync
+
+        std::cout << glGetString(GL_VERSION) << std::endl;
 
         /* Loop until the user closes the window */
         while (!glfwWindowShouldClose(window))
