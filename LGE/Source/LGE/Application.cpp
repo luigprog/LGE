@@ -7,60 +7,110 @@
 
 namespace LGE 
 {
-
 	Application::Application() 
+        : m_Window(nullptr), m_ActiveScene(nullptr)
 	{
+        InitializeGlfw();
+
+        CreateWindow();
+
+        InitializeGl();
 	}
 
 	Application::~Application()
 	{
+        delete m_ActiveScene;
+
+        glfwDestroyWindow(m_Window);
+        glfwTerminate();
 	}
 
-	void Application::Run()
-	{
-        GLFWwindow* window;
-
-        /* Initialize the library */
+    bool Application::InitializeGlfw()
+    {
         if (!glfwInit())
-            return; //return -1;
-
-        /* Create a windowed mode window and its OpenGL context */
-        window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
-        if (!window)
         {
-            glfwTerminate();
-            return; //return -1;
+            std::cout << "ERROR: Failed initializing GLFW." << std::endl;
+            return false;
         }
 
-        /* Make the window's context current */
-        glfwMakeContextCurrent(window);
+        return true;
+    }
+
+    bool Application::CreateWindow()
+    {
+        if (m_Window)
+        {
+            std::cout << "ERROR: An instance of window already exists." << std::endl;
+            return false;
+        }
+
+        glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+
+        m_Window = glfwCreateWindow(k_ScreenWidth, k_ScreenHeight, "LGE", NULL, NULL);
+
+        if (!m_Window)
+        {
+            std::cout << "ERROR: Failed creating GLFW window." << std::endl;
+            glfwTerminate();
+            return false;
+        }
+
+        return true;
+    }
+
+    bool Application::InitializeGl()
+    {
+        glfwMakeContextCurrent(m_Window);
 
         // glad: load all OpenGL function pointers
         if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
         {
             std::cout << "ERROR: Failed to initialize GLAD" << std::endl;
-            return; // return -1;
+            return false;
         }
 
         glfwSwapInterval(1); // Enable vsync
 
         std::cout << glGetString(GL_VERSION) << std::endl;
 
-        /* Loop until the user closes the window */
-        while (!glfwWindowShouldClose(window))
+        glViewport(0, 0, k_ScreenWidth, k_ScreenHeight);
+
+        return true;
+    }
+
+    void Application::ActivateScene(Scene* scene)
+    {
+        m_ActiveScene = scene;
+        m_ActiveScene->OnActivate();
+    }
+
+	void Application::Run()
+	{
+        float time = glfwGetTime();
+
+        while (!glfwWindowShouldClose(m_Window))
         {
+            glfwPollEvents();
+
+            float nowTime = glfwGetTime();
+            float deltaTime = nowTime - time;
+            time = nowTime;
+
+            if (m_ActiveScene != nullptr)
+            {
+                m_ActiveScene->Update(deltaTime);
+            }
+
             /* Render here */
+            glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT);
 
-            /* Swap front and back buffers */
-            glfwSwapBuffers(window);
+            if (m_ActiveScene != nullptr)
+            {
+                m_ActiveScene->Render();
+            }
 
-            /* Poll for and process events */
-            glfwPollEvents();
+            glfwSwapBuffers(m_Window);
         }
-
-        glfwTerminate();
-        //return 0;
 	}
-
 }
