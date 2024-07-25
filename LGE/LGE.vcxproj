@@ -91,12 +91,12 @@
     <ClInclude Include="Source\LGE\Core.h" />
     <ClInclude Include="Source\LGE\EntryPoint.h" />
     <ClInclude Include="Source\LGE\Scene.h" />
-    <ClInclude Include="Source\LGE\Shader.h" />
+    <ClInclude Include="Source\LGE\ShaderProgram.h" />
     <ClInclude Include="Source\LGE\TestScene.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\LGE\Application.cpp" />
-    <ClCompile Include="Source\LGE\Shader.cpp" />
+    <ClCompile Include="Source\LGE\ShaderProgram.cpp" />
     <ClCompile Include="Source\LGE\TestScene.cpp" />
     <ClCompile Include="Source\Vendor\Glad\glad.c" />
   </ItemGroup>
