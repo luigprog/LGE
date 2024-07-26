@@ -1,10 +1,11 @@
 #include "TestScene.h"
-
 #include "ShaderProgram.h"
 
 #include <iostream>
 
 #include <glad/glad.h>
+
+#include "stb_image.h"
 
 namespace LGE
 {
@@ -25,13 +26,13 @@ namespace LGE
 		// Generate the vertex array object.
 		// Bind the VAO so any subsequent vertex attribute calls from that point on will be stored 
 		// inside the VAO: vertex buffer data, elements buffer data, attributes layout.
-		uint32_t vao;
+		unsigned int vao;
 		glGenVertexArrays(1, &vao);
 		glBindVertexArray(vao);
 
 		// Generate the vertex buffer object.
 		// Set the buffer data on OpenGL.
-		uint32_t vbo;
+		unsigned int vbo;
 		glGenBuffers(1, &vbo);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 		float vertices[] = {
@@ -52,13 +53,13 @@ namespace LGE
 
 		// Generate the elements buffer object.
 		// Set the buffer data on OpenGL.
-		uint32_t ebo;
+		unsigned int ebo;
 		glGenBuffers(1, &ebo);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-		uint32_t indices[] = {
+		unsigned int indices[] = {
 			0, 1, 2
 		};
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, 3 * sizeof(uint32_t), indices, GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, 3 * sizeof(unsigned int), indices, GL_STATIC_DRAW);
 
 		// Unbind VAO and VBO and EBO
 		glBindVertexArray(0);
@@ -69,7 +70,7 @@ namespace LGE
 		glBindVertexArray(vao);
 
 		// Shader
-		const char* vertexShaderSrc = R"(
+		std::string vertexShaderSrc = R"(
 			#version 330 core
 			
 			// attributes
@@ -85,7 +86,7 @@ namespace LGE
 			}
 		)";
 
-		const char* fragmentShaderSrc = R"(
+		std::string fragmentShaderSrc = R"(
 			#version 330 core
 			
 			out vec4 fColor; // obligatory fragment color output

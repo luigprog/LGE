@@ -9,10 +9,10 @@ namespace LGE
     class ShaderProgram
     {
     private:
-        uint32_t m_Id; // Shader Program id
+        unsigned int m_Id; // Shader Program id
         std::unordered_map<std::string, int> m_UniformLocationCache;
     public:
-        ShaderProgram(const char* vertexShaderSrc, const char* fragmentShaderSrc);
+        ShaderProgram(const std::string& vertexShaderSrc, const std::string& fragmentShaderSrc);
         ~ShaderProgram();
 
         void Bind() const;
@@ -23,8 +23,8 @@ namespace LGE
         void SetUniform1f(const std::string& name, float v);
         void SetUniform4f(const std::string& name, float v0, float v1, float v2, float v3);
     private:
-        uint32_t CreateShader(const char* vertexShaderSrc, const char* fragmentShaderSrc);
-        uint32_t CompileShader(uint32_t type, const char* src);
+        unsigned int CreateShader(const std::string& vertexShaderSrc, const std::string& fragmentShaderSrc);
+        unsigned int CompileShader(unsigned int type, const std::string& src);
 
         int GetUniformLocation(const std::string& name);
     };

@@ -2,11 +2,11 @@
 
 #include <iostream>
 
-#include "glad/glad.h"
+#include <glad/glad.h>
 
 namespace LGE
 {
-	ShaderProgram::ShaderProgram(const char* vertexShaderSrc, const char* fragmentShaderSrc)
+	ShaderProgram::ShaderProgram(const std::string& vertexShaderSrc, const std::string& fragmentShaderSrc)
 		: m_Id(0)
 	{
 		m_Id = CreateShader(vertexShaderSrc, fragmentShaderSrc);
@@ -27,7 +27,7 @@ namespace LGE
 		glUseProgram(0);
 	}
 
-	void ShaderProgram::SetUniform1i(const std::string& name, int32_t v)
+	void ShaderProgram::SetUniform1i(const std::string& name, int v)
 	{
 		glUniform1i(GetUniformLocation(name), v);
 	}
@@ -42,11 +42,11 @@ namespace LGE
 		glUniform4f(GetUniformLocation(name), v0, v1, v2, v3);
 	}
 
-	uint32_t ShaderProgram::CreateShader(const char* vertexShaderSrc, const char* fragmentShaderSrc)
+	unsigned int ShaderProgram::CreateShader(const std::string& vertexShaderSrc, const std::string& fragmentShaderSrc)
 	{
-		uint32_t program = glCreateProgram();
-		uint32_t vs = CompileShader(GL_VERTEX_SHADER, vertexShaderSrc);
-		uint32_t fs = CompileShader(GL_FRAGMENT_SHADER, fragmentShaderSrc);
+		unsigned int program = glCreateProgram();
+		unsigned int vs = CompileShader(GL_VERTEX_SHADER, vertexShaderSrc);
+		unsigned int fs = CompileShader(GL_FRAGMENT_SHADER, fragmentShaderSrc);
 
 		glAttachShader(program, vs);
 		glAttachShader(program, fs);
@@ -59,10 +59,11 @@ namespace LGE
 		return program;
 	}
 
-	uint32_t ShaderProgram::CompileShader(uint32_t type, const char* src)
+	unsigned int ShaderProgram::CompileShader(unsigned int type, const std::string& src)
 	{
-		uint32_t id = glCreateShader(type);
-		glShaderSource(id, 1, &src, nullptr);
+		unsigned int id = glCreateShader(type);
+		const char* cSrc = src.c_str();
+		glShaderSource(id, 1, &cSrc, nullptr);
 		glCompileShader(id);
 
 		int result;
@@ -71,7 +72,7 @@ namespace LGE
 		{
 			int length;
 			glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length);
-			char* message = (char*)alloca(length * sizeof(char));
+			char* message = (char*)_malloca(length * sizeof(char));
 			glGetShaderInfoLog(id, length, &length, message);
 			std::cout << "Failed to compile "
 				<< (type == GL_VERTEX_SHADER ? "vertex" : "fragment")
