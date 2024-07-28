@@ -1,6 +1,6 @@
-#include <LGE.h>
-
 #include <iostream>
+
+#include <LGE.h>
 
 class SandboxApplication : public LGE::Application 
 {

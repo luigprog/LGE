@@ -86,13 +86,13 @@ namespace LGE
 
 	void Application::Run()
 	{
-        float time = glfwGetTime();
+        float time = static_cast<float>(glfwGetTime());
 
         while (!glfwWindowShouldClose(m_Window))
         {
             glfwPollEvents();
 
-            float nowTime = glfwGetTime();
+            float nowTime = static_cast<float>(glfwGetTime());
             float deltaTime = nowTime - time;
             time = nowTime;
 

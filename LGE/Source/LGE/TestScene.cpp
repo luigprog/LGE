@@ -1,15 +1,17 @@
 #include "TestScene.h"
-#include "ShaderProgram.h"
 
 #include <iostream>
 
 #include <glad/glad.h>
-
 #include "stb_image.h"
+
+#include "ShaderProgram.h"
+#include "Texture.h"
 
 namespace LGE
 {
 	TestScene::TestScene()
+		: m_BoxTexture(nullptr), m_FaceTexture(nullptr), m_BasicShaderProgram(nullptr)
 	{
 		std::cout << "TestScene()" << std::endl;
 	}
@@ -17,6 +19,10 @@ namespace LGE
 	TestScene::~TestScene()
 	{
 		std::cout << "~TestScene()" << std::endl;
+
+		delete m_BoxTexture;
+		delete m_FaceTexture;
+		delete m_BasicShaderProgram;
 	}
 
 	void TestScene::OnActivate()
@@ -36,30 +42,35 @@ namespace LGE
 		glGenBuffers(1, &vbo);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 		float vertices[] = {
-			// position        // color
-		   -0.5f, -0.5f, 0.0f, 1.0, 0.0, 0.0,
-			0.5f, -0.5f, 0.0f, 0.0, 1.0, 0.0,
-			0.0f,  0.5f, 0.0f, 0.0, 0.0, 1.0
+			// positions          // colors           // texture coords
+			 0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // top right
+			 0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // bottom right
+			-0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // bottom left
+			-0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f    // top left 
 		};
-		glBufferData(GL_ARRAY_BUFFER, 18 * sizeof(float), vertices, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
 		// Layout/setup vertex attribute pointers
 		// position attribute
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
 		glEnableVertexAttribArray(0);
 		// color attribute
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
 		glEnableVertexAttribArray(1);
+		// tex coord attribute
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+		glEnableVertexAttribArray(2);
 
 		// Generate the elements buffer object.
 		// Set the buffer data on OpenGL.
 		unsigned int ebo;
 		glGenBuffers(1, &ebo);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-		unsigned int indices[] = {
-			0, 1, 2
+		unsigned int indices[] = { 
+			0, 1, 3,   // first triangle
+			1, 2, 3    // second triangle
 		};
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, 3 * sizeof(unsigned int), indices, GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(unsigned int), indices, GL_STATIC_DRAW);
 
 		// Unbind VAO and VBO and EBO
 		glBindVertexArray(0);
@@ -69,46 +80,62 @@ namespace LGE
 		// Bind the VAO to draw
 		glBindVertexArray(vao);
 
+		// Texture
+		m_BoxTexture = new Texture("Resources/container.jpg");
+		m_FaceTexture = new Texture("Resources/awesomeface.png");
+
 		// Shader
 		std::string vertexShaderSrc = R"(
 			#version 330 core
 			
 			// attributes
-			layout(location = 0) in vec3 aPosition;
-			layout(location = 1) in vec3 aColor;
+			layout(location = 0) in vec3 a_Position;
+			layout(location = 1) in vec3 a_Color;
+			layout(location = 2) in vec2 a_TexCoord;
 
-			out vec3 vColor; // color from vertex shader to fragment shader
+			out vec3 v_Color; // color from vertex shader to fragment shader
+			out vec2 v_TexCoord;
 			
 			void main()
 			{
-				gl_Position = vec4(aPosition, 1.0);
-				vColor = aColor;
+				gl_Position = vec4(a_Position, 1.0);
+				v_Color = a_Color;
+				v_TexCoord = a_TexCoord;
 			}
 		)";
 
 		std::string fragmentShaderSrc = R"(
 			#version 330 core
 			
-			out vec4 fColor; // obligatory fragment color output
+			out vec4 fragColor; // obligatory fragment color output
 
-			in vec3 vColor; // color output from vertex shader
+			in vec3 v_Color; // color from vertex shader to fragment shader
+			in vec2 v_TexCoord;
+
+			uniform sampler2D u_Texture0;
+			uniform sampler2D u_Texture1;
 			
 			void main()
 			{
-				fColor = vec4(vColor, 1.0);
+				fragColor = mix(texture(u_Texture0, v_TexCoord), texture(u_Texture1, v_TexCoord), 0.2);
 			}
 		)";
 
-		ShaderProgram shaderProgram(vertexShaderSrc, fragmentShaderSrc);
-		shaderProgram.Bind();
+		m_BasicShaderProgram = new ShaderProgram(vertexShaderSrc, fragmentShaderSrc);
 	}
 
 	void TestScene::Update(float deltaTime)
 	{
 	}
 
-	void TestScene::Render() const
+	void TestScene::Render()
 	{
-		glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
+		m_BoxTexture->Bind(0);
+		m_FaceTexture->Bind(1);
+		m_BasicShaderProgram->SetUniform1i("u_Texture0", 0);
+		m_BasicShaderProgram->SetUniform1i("u_Texture1", 1);
+		m_BasicShaderProgram->Bind();
+
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 	}
 }
