@@ -94,6 +94,7 @@
     <ClInclude Include="Source\LGE\ShaderProgram.h" />
     <ClInclude Include="Source\LGE\TestScene.h" />
     <ClInclude Include="Source\LGE\Texture.h" />
+    <ClInclude Include="Source\LGE\Window.h" />
     <ClInclude Include="Source\Vendor\stb\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
@@ -101,6 +102,7 @@
     <ClCompile Include="Source\LGE\ShaderProgram.cpp" />
     <ClCompile Include="Source\LGE\TestScene.cpp" />
     <ClCompile Include="Source\LGE\Texture.cpp" />
+    <ClCompile Include="Source\LGE\Window.cpp" />
     <ClCompile Include="Source\Vendor\Glad\glad.c" />
     <ClCompile Include="Source\Vendor\stb\stb_image.cpp" />
   </ItemGroup>

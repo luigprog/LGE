@@ -3,80 +3,28 @@
 #include <iostream>
 
 #include <glad/glad.h>
-#include <GLFW/glfw3.h>
+
+#include "Window.h"
 
 namespace LGE 
 {
+    Application* Application::s_Instance = nullptr;
+
 	Application::Application() 
         : m_Window(nullptr), m_ActiveScene(nullptr)
 	{
-        InitializeGlfw();
+        // TODO: Assert there is only one instance of Application
+        s_Instance = this;
 
-        CreateWindow();
-
-        InitializeGl();
+        m_Window = new Window();
 	}
 
 	Application::~Application()
 	{
         delete m_ActiveScene;
 
-        glfwDestroyWindow(m_Window);
-        glfwTerminate();
+        delete m_Window;
 	}
-
-    bool Application::InitializeGlfw()
-    {
-        if (!glfwInit())
-        {
-            std::cout << "ERROR: Failed initializing GLFW." << std::endl;
-            return false;
-        }
-
-        return true;
-    }
-
-    bool Application::CreateWindow()
-    {
-        if (m_Window)
-        {
-            std::cout << "ERROR: An instance of window already exists." << std::endl;
-            return false;
-        }
-
-        glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-
-        m_Window = glfwCreateWindow(k_ScreenWidth, k_ScreenHeight, "LGE", NULL, NULL);
-
-        if (!m_Window)
-        {
-            std::cout << "ERROR: Failed creating GLFW window." << std::endl;
-            glfwTerminate();
-            return false;
-        }
-
-        return true;
-    }
-
-    bool Application::InitializeGl()
-    {
-        glfwMakeContextCurrent(m_Window);
-
-        // glad: load all OpenGL function pointers
-        if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-        {
-            std::cout << "ERROR: Failed to initialize GLAD" << std::endl;
-            return false;
-        }
-
-        glfwSwapInterval(1); // Enable vsync
-
-        std::cout << glGetString(GL_VERSION) << std::endl;
-
-        glViewport(0, 0, k_ScreenWidth, k_ScreenHeight);
-
-        return true;
-    }
 
     void Application::ActivateScene(Scene* scene)
     {
@@ -86,13 +34,11 @@ namespace LGE
 
 	void Application::Run()
 	{
-        float time = static_cast<float>(glfwGetTime());
+        float time = m_Window->GetTime();
 
-        while (!glfwWindowShouldClose(m_Window))
+        while (!m_Window->ShouldClose())
         {
-            glfwPollEvents();
-
-            float nowTime = static_cast<float>(glfwGetTime());
+            float nowTime = m_Window->GetTime();
             float deltaTime = nowTime - time;
             time = nowTime;
 
@@ -110,7 +56,7 @@ namespace LGE
                 m_ActiveScene->Render();
             }
 
-            glfwSwapBuffers(m_Window);
+            m_Window->Update();
         }
 	}
 }
