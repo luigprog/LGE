@@ -7,6 +7,8 @@
 
 #include "ShaderProgram.h"
 #include "Texture.h"
+#include "Math/Vector3.h"
+#include "Math/Matrix4.h"
 
 namespace LGE
 {
@@ -66,7 +68,7 @@ namespace LGE
 		unsigned int ebo;
 		glGenBuffers(1, &ebo);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-		unsigned int indices[] = { 
+		unsigned int indices[] = {
 			0, 1, 3,   // first triangle
 			1, 2, 3    // second triangle
 		};
@@ -122,6 +124,11 @@ namespace LGE
 		)";
 
 		m_BasicShaderProgram = new ShaderProgram(vertexShaderSrc, fragmentShaderSrc);
+
+		// ----------------------------------------------------------------------------------------
+		Vector3 v = Matrix4::Translation({ 2,4,6 }) * Vector3(1, 2, 3);
+		std::cout << v.DebugString();
+		// ----------------------------------------------------------------------------------------
 	}
 
 	void TestScene::Update(float deltaTime)

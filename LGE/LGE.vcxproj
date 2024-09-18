@@ -57,7 +57,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>LGE_PLATFORM_WINDOWS;LGE_BUILD_DLL</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\Glad\include;$(ProjectDir)Source\Vendor\stb</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Source\LGE;$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\Glad\include;$(ProjectDir)Source\Vendor\stb</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -74,7 +75,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>LGE_PLATFORM_WINDOWS;LGE_BUILD_DLL</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\Glad\include;$(ProjectDir)Source\Vendor\stb</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Source\LGE;$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\Glad\include;$(ProjectDir)Source\Vendor\stb</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -90,6 +92,8 @@
     <ClInclude Include="Source\LGE\Application.h" />
     <ClInclude Include="Source\LGE\Core.h" />
     <ClInclude Include="Source\LGE\EntryPoint.h" />
+    <ClInclude Include="Source\LGE\Math\Matrix4.h" />
+    <ClInclude Include="Source\LGE\Math\Vector3.h" />
     <ClInclude Include="Source\LGE\Scene.h" />
     <ClInclude Include="Source\LGE\ShaderProgram.h" />
     <ClInclude Include="Source\LGE\TestScene.h" />
@@ -99,6 +103,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\LGE\Application.cpp" />
+    <ClCompile Include="Source\LGE\Math\Matrix4.cpp" />
+    <ClCompile Include="Source\LGE\Math\Vector3.cpp" />
     <ClCompile Include="Source\LGE\ShaderProgram.cpp" />
     <ClCompile Include="Source\LGE\TestScene.cpp" />
     <ClCompile Include="Source\LGE\Texture.cpp" />
