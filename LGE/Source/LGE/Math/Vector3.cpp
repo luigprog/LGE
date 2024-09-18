@@ -84,6 +84,6 @@ namespace LGE
 
 	const std::string Vector3::DebugString() const
 	{
-		return std::format("[Vector3] X: {}, Y: {}, Z: {}, Lenght: {} \n", X, Y, Z, Length());
+		return std::format("[Vector3] X: {}, Y: {}, Z: {}, Length: {} \n", X, Y, Z, Length());
 	}
 }

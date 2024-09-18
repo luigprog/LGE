@@ -1,5 +1,7 @@
 #pragma once
 
+#include <format>
+
 #include "Core.h"
 
 namespace LGE
@@ -42,8 +44,12 @@ namespace LGE
 
 		Vector3 operator*(const Vector3& rhs) const;
 
+		const std::string DebugString() const;
+
 		static Matrix4 Identity();
 
 		static Matrix4 Translation(const Vector3& translation);
+
+		static Matrix4 Scaling(const Vector3& scale);
 	};
 }

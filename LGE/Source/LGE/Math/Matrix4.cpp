@@ -45,6 +45,12 @@ namespace LGE
 		return result;
 	}
 
+	const std::string Matrix4::DebugString() const
+	{
+		// TODO:
+		return std::format("[Matrix4] TODO {} \n", 16);
+	}
+
 	Matrix4 Matrix4::Identity()
 	{
 		Matrix4 matrix;
@@ -62,6 +68,16 @@ namespace LGE
 		matrix.M10 = 0.0f; matrix.M11 = 1.0f; matrix.M12 = 0.0f; matrix.M13 = delta.Y;
 		matrix.M20 = 0.0f; matrix.M21 = 0.0f; matrix.M22 = 1.0f; matrix.M23 = delta.Z;
 		matrix.M30 = 0.0f; matrix.M31 = 0.0f; matrix.M32 = 0.0f; matrix.M33 = 1.0f;
+		return matrix;
+	}
+
+	Matrix4 Matrix4::Scaling(const Vector3& scale)
+	{
+		Matrix4 matrix;
+		matrix.M00 = scale.X; matrix.M01 = 0.0f;    matrix.M02 = 0.0f;    matrix.M03 = 0.0f;
+		matrix.M10 = 0.0f;	  matrix.M11 = scale.Y; matrix.M12 = 0.0f;    matrix.M13 = 0.0f;
+		matrix.M20 = 0.0f;    matrix.M21 = 0.0f;    matrix.M22 = scale.Z; matrix.M23 = 0.0f;
+		matrix.M30 = 0.0f;    matrix.M31 = 0.0f;    matrix.M32 = 0.0f;    matrix.M33 = 1.0f;
 		return matrix;
 	}
 }

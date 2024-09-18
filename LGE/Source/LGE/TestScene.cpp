@@ -5,10 +5,10 @@
 #include <glad/glad.h>
 #include "stb_image.h"
 
+#include "Math/Matrix4.h"
+#include "Math/Vector3.h"
 #include "ShaderProgram.h"
 #include "Texture.h"
-#include "Math/Vector3.h"
-#include "Math/Matrix4.h"
 
 namespace LGE
 {
@@ -98,9 +98,11 @@ namespace LGE
 			out vec3 v_Color; // color from vertex shader to fragment shader
 			out vec2 v_TexCoord;
 			
+			uniform mat4 u_Matri;
+			
 			void main()
 			{
-				gl_Position = vec4(a_Position, 1.0);
+				gl_Position = u_Matri * vec4(a_Position, 1.0);
 				v_Color = a_Color;
 				v_TexCoord = a_TexCoord;
 			}
@@ -126,8 +128,13 @@ namespace LGE
 		m_BasicShaderProgram = new ShaderProgram(vertexShaderSrc, fragmentShaderSrc);
 
 		// ----------------------------------------------------------------------------------------
-		Vector3 v = Matrix4::Translation({ 2,4,6 }) * Vector3(1, 2, 3);
-		std::cout << v.DebugString();
+
+		Matrix4 t = Matrix4::Translation({ 1.0f, 2.0f, 3.0f });
+		Matrix4 s = Matrix4::Scaling({ 2.0f, 2.0f, 2.0f });
+		Matrix4 combined = t * s;
+
+		std::cout << combined.DebugString();
+
 		// ----------------------------------------------------------------------------------------
 	}
 
@@ -141,6 +148,7 @@ namespace LGE
 		m_FaceTexture->Bind(1);
 		m_BasicShaderProgram->SetUniform1i("u_Texture0", 0);
 		m_BasicShaderProgram->SetUniform1i("u_Texture1", 1);
+		m_BasicShaderProgram->SetUniformMatrix4f("u_Matri", Matrix4::Identity());
 		m_BasicShaderProgram->Bind();
 
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
