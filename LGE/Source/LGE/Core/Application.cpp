@@ -4,6 +4,7 @@
 
 #include <glad/glad.h>
 
+#include "Scene.h"
 #include "Window.h"
 
 namespace LGE 
@@ -42,12 +43,13 @@ namespace LGE
             float deltaTime = nowTime - time;
             time = nowTime;
 
+            // Logic/Simulation update
             if (m_ActiveScene != nullptr)
             {
                 m_ActiveScene->Update(deltaTime);
             }
 
-            /* Render here */
+            // Render here 
             glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT);
 
@@ -56,6 +58,9 @@ namespace LGE
                 m_ActiveScene->Render();
             }
 
+            // ImGui render here, scene->ImGuiRender()
+
+            // Window swap buffers and poll events
             m_Window->Update();
         }
 	}

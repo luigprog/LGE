@@ -7,8 +7,8 @@
 
 #include "Math/Matrix4.h"
 #include "Math/Vector3.h"
-#include "ShaderProgram.h"
-#include "Texture.h"
+#include "Rendering/ShaderProgram.h"
+#include "Rendering/Texture.h"
 
 namespace LGE
 {

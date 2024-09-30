@@ -97,26 +97,26 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Source\LGE.h" />
-    <ClInclude Include="Source\LGE\Application.h" />
-    <ClInclude Include="Source\LGE\Core.h" />
-    <ClInclude Include="Source\LGE\EntryPoint.h" />
+    <ClInclude Include="Source\LGE\Core\Application.h" />
+    <ClInclude Include="Source\LGE\Core\Core.h" />
+    <ClInclude Include="Source\LGE\Core\EntryPoint.h" />
     <ClInclude Include="Source\LGE\Math\Matrix4.h" />
     <ClInclude Include="Source\LGE\Math\Vector3.h" />
     <ClInclude Include="Source\LGE\Scene.h" />
-    <ClInclude Include="Source\LGE\ShaderProgram.h" />
+    <ClInclude Include="Source\LGE\Rendering\ShaderProgram.h" />
     <ClInclude Include="Source\LGE\TestScene.h" />
-    <ClInclude Include="Source\LGE\Texture.h" />
-    <ClInclude Include="Source\LGE\Window.h" />
+    <ClInclude Include="Source\LGE\Rendering\Texture.h" />
+    <ClInclude Include="Source\LGE\Core\Window.h" />
     <ClInclude Include="Source\Vendor\stb\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\LGE\Application.cpp" />
+    <ClCompile Include="Source\LGE\Core\Application.cpp" />
     <ClCompile Include="Source\LGE\Math\Matrix4.cpp" />
     <ClCompile Include="Source\LGE\Math\Vector3.cpp" />
-    <ClCompile Include="Source\LGE\ShaderProgram.cpp" />
+    <ClCompile Include="Source\LGE\Rendering\ShaderProgram.cpp" />
     <ClCompile Include="Source\LGE\TestScene.cpp" />
-    <ClCompile Include="Source\LGE\Texture.cpp" />
-    <ClCompile Include="Source\LGE\Window.cpp" />
+    <ClCompile Include="Source\LGE\Rendering\Texture.cpp" />
+    <ClCompile Include="Source\LGE\Core\Window.cpp" />
     <ClCompile Include="Source\Vendor\Glad\glad.c" />
     <ClCompile Include="Source\Vendor\stb\stb_image.cpp" />
   </ItemGroup>

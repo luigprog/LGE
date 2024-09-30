@@ -1,10 +1,10 @@
 #pragma once
 
 #include "Core.h"
-#include "Scene.h"
 
 namespace LGE
 {
+	class Scene;
 	class Window;
 
 	const unsigned int k_ScreenWidth = 1280;

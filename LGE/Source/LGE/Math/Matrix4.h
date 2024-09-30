@@ -2,7 +2,7 @@
 
 #include <format>
 
-#include "Core.h"
+#include "Core/Core.h"
 
 namespace LGE
 {
