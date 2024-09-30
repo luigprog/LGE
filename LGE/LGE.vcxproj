@@ -66,6 +66,10 @@
       <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLFW\lib-vc2022</AdditionalLibraryDirectories>
       <AdditionalDependencies>glfw3.lib;Opengl32.lib;User32.lib;Gdi32.lib;Shell32.lib</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>copy /y "$(TargetDir)$(ProjectName).dll" "$(SolutionDir)bin\$(Configuration)-$(Platform)\Sandbox\$(ProjectName).dll"</Command>
+      <Message>Copy engine binary to SandBox.</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -86,6 +90,10 @@
       <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLFW\lib-vc2022</AdditionalLibraryDirectories>
       <AdditionalDependencies>glfw3.lib;Opengl32.lib;User32.lib;Gdi32.lib;Shell32.lib</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>copy /y "$(TargetDir)$(ProjectName).dll" "$(SolutionDir)bin\$(Configuration)-$(Platform)\Sandbox\$(ProjectName).dll"</Command>
+      <Message>Copy engine binary to SandBox.</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Source\LGE.h" />
