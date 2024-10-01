@@ -3,7 +3,7 @@
 #include <iostream>
 
 #include <glad/glad.h>
-#include "stb_image.h"
+#include "stb/stb_image.h"
 
 #include "Math/Matrix4.h"
 #include "Math/Vector3.h"
@@ -16,20 +16,6 @@ namespace LGE
 		: m_BoxTexture(nullptr), m_FaceTexture(nullptr), m_BasicShaderProgram(nullptr)
 	{
 		std::cout << "TestScene()" << std::endl;
-	}
-
-	TestScene::~TestScene()
-	{
-		std::cout << "~TestScene()" << std::endl;
-
-		delete m_BoxTexture;
-		delete m_FaceTexture;
-		delete m_BasicShaderProgram;
-	}
-
-	void TestScene::OnActivate()
-	{
-		std::cout << "TestScene OnActivate()" << std::endl;
 
 		// Generate the vertex array object.
 		// Bind the VAO so any subsequent vertex attribute calls from that point on will be stored 
@@ -86,6 +72,9 @@ namespace LGE
 		m_BoxTexture = new Texture("Resources/container.jpg");
 		m_FaceTexture = new Texture("Resources/awesomeface.png");
 
+		m_BoxTexture->Bind(0);
+		m_FaceTexture->Bind(1);
+
 		// Shader
 		std::string vertexShaderSrc = R"(
 			#version 330 core
@@ -127,6 +116,11 @@ namespace LGE
 
 		m_BasicShaderProgram = new ShaderProgram(vertexShaderSrc, fragmentShaderSrc);
 
+		m_BasicShaderProgram->Bind();
+		m_BasicShaderProgram->SetUniform1i("u_Texture0", 0);
+		m_BasicShaderProgram->SetUniform1i("u_Texture1", 1);
+		m_BasicShaderProgram->SetUniformMatrix4f("u_Matri", Matrix4::Identity());
+
 		// ----------------------------------------------------------------------------------------
 
 		Matrix4 t = Matrix4::Translation({ 1.0f, 2.0f, 3.0f });
@@ -138,19 +132,32 @@ namespace LGE
 		// ----------------------------------------------------------------------------------------
 	}
 
+	TestScene::~TestScene()
+	{
+		delete m_BoxTexture;
+		delete m_FaceTexture;
+		delete m_BasicShaderProgram;
+
+		std::cout << "~TestScene()}" << std::endl;
+	}
+
 	void TestScene::Update(float deltaTime)
 	{
 	}
 
 	void TestScene::Render()
 	{
-		m_BoxTexture->Bind(0);
-		m_FaceTexture->Bind(1);
-		m_BasicShaderProgram->SetUniform1i("u_Texture0", 0);
-		m_BasicShaderProgram->SetUniform1i("u_Texture1", 1);
-		m_BasicShaderProgram->SetUniformMatrix4f("u_Matri", Matrix4::Identity());
-		m_BasicShaderProgram->Bind();
+		//m_BoxTexture->Bind(0);
+		//m_FaceTexture->Bind(1);
+		//m_BasicShaderProgram->SetUniform1i("u_Texture0", 0);
+		//m_BasicShaderProgram->SetUniform1i("u_Texture1", 1);
+		//m_BasicShaderProgram->SetUniformMatrix4f("u_Matri", Matrix4::Identity());
+		//m_BasicShaderProgram->Bind();
 
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+	}
+
+	void TestScene::ImGuiRender()
+	{
 	}
 }

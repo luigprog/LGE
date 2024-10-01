@@ -10,8 +10,8 @@ namespace LGE
 		Scene() {}
 		virtual ~Scene() {}
 	public:
-		virtual void OnActivate() = 0;
 		virtual void Update(float deltaTime) = 0;
 		virtual void Render() = 0;
+		virtual void ImGuiRender() = 0;
 	};
 }

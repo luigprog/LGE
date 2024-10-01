@@ -16,6 +16,8 @@ namespace LGE
 			unsigned int height = 900);
 		~Window();
 
+		GLFWwindow* GetGlfwWindow() { return m_GlfwWindow; }
+
 		bool ShouldClose() const;
 
 		float GetTime() const;

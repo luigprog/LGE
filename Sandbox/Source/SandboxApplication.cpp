@@ -4,17 +4,23 @@
 
 class SandboxApplication : public LGE::Application 
 {
+private:
+	LGE::TestScene* m_TestScene = nullptr;
+
 public:
 	SandboxApplication()
 	{
 		std::cout << "SandboxApplication()" << std::endl;
 
-		ActivateScene(new LGE::TestScene());
+		m_TestScene = new LGE::TestScene();
+		ActivateScene(m_TestScene);
 	}
 
 	~SandboxApplication()
 	{
-		std::cout << "~SandboxApplication()" << std::endl;
+		delete m_TestScene;
+		
+		std::cout << "~SandboxApplication()}" << std::endl;
 	}
 };
 

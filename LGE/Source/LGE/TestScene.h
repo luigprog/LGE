@@ -18,8 +18,8 @@ namespace LGE
 		Texture* m_FaceTexture;
 		ShaderProgram* m_BasicShaderProgram;
 	public:
-		virtual void OnActivate() override;
 		virtual void Update(float deltaTime) override;
 		virtual void Render() override;
+		virtual void ImGuiRender() override;
 	};
 }

@@ -57,7 +57,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>LGE_PLATFORM_WINDOWS;LGE_BUILD_DLL</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)Source\LGE;$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\Glad\include;$(ProjectDir)Source\Vendor\stb</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Source\LGE;$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\Glad\include;$(ProjectDir)Source\Vendor</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -79,7 +79,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>LGE_PLATFORM_WINDOWS;LGE_BUILD_DLL</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)Source\LGE;$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\Glad\include;$(ProjectDir)Source\Vendor\stb</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Source\LGE;$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\Glad\include;$(ProjectDir)Source\Vendor</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -107,6 +107,15 @@
     <ClInclude Include="Source\LGE\TestScene.h" />
     <ClInclude Include="Source\LGE\Rendering\Texture.h" />
     <ClInclude Include="Source\LGE\Core\Window.h" />
+    <ClInclude Include="Source\Vendor\imgui\imconfig.h" />
+    <ClInclude Include="Source\Vendor\imgui\imgui.h" />
+    <ClInclude Include="Source\Vendor\imgui\imgui_impl_glfw.h" />
+    <ClInclude Include="Source\Vendor\imgui\imgui_impl_opengl3.h" />
+    <ClInclude Include="Source\Vendor\imgui\imgui_impl_opengl3_loader.h" />
+    <ClInclude Include="Source\Vendor\imgui\imgui_internal.h" />
+    <ClInclude Include="Source\Vendor\imgui\imstb_rectpack.h" />
+    <ClInclude Include="Source\Vendor\imgui\imstb_textedit.h" />
+    <ClInclude Include="Source\Vendor\imgui\imstb_truetype.h" />
     <ClInclude Include="Source\Vendor\stb\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
@@ -118,6 +127,13 @@
     <ClCompile Include="Source\LGE\Rendering\Texture.cpp" />
     <ClCompile Include="Source\LGE\Core\Window.cpp" />
     <ClCompile Include="Source\Vendor\Glad\glad.c" />
+    <ClCompile Include="Source\Vendor\imgui\imgui.cpp" />
+    <ClCompile Include="Source\Vendor\imgui\imgui_demo.cpp" />
+    <ClCompile Include="Source\Vendor\imgui\imgui_draw.cpp" />
+    <ClCompile Include="Source\Vendor\imgui\imgui_impl_glfw.cpp" />
+    <ClCompile Include="Source\Vendor\imgui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="Source\Vendor\imgui\imgui_tables.cpp" />
+    <ClCompile Include="Source\Vendor\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Source\Vendor\stb\stb_image.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
